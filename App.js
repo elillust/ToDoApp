@@ -14,8 +14,13 @@ import { theme } from './color';
 
 export default function App() {
   const [working, setWorking] = useState(true);
+  const [text, setText] = useState("");
   const travel = () => setWorking(false); 
   const work = () => setWorking(true); 
+  const onChangeText = (payload) => setText(payload);
+  const addToDo = () => {
+    alert(text); 
+  }
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -32,9 +37,17 @@ export default function App() {
           <Text style={{...styles.bunText, color: !working ? "white" : theme.grey}}>Travel</Text>
         </TouchableOpacity>
       </View>
-      <View>
-        
-      </View>
+      
+      <TextInput
+        onSubmitEditing={addToDo}
+        onChangeText={onChangeText}
+        value={text}
+        // keyboardType='number-pad'
+        placeholder={working ? "Add a To do" : "Where do you want go?"}
+        placeholderTextColor='#ddd'
+        style={styles.inputs}
+      />
+    
     </View>
   );
 }
@@ -54,5 +67,14 @@ const styles = StyleSheet.create({
     fontSize: 38,
     fontWeight: "600",
     color: "white", 
+  },
+  inputs: {
+    backgroundColor: theme.grey,
+    borderRadius: 30,
+    color: "black",
+    paddingHorizontal: 20,
+    paddingVertical:15,
+    marginTop:20,
+    fontSize: 18,
   }
 });
