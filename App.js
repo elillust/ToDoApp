@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -6,22 +7,33 @@ import {
   TouchableOpacity, 
   TouchableHighlight, 
   TouchableWithoutFeedback,
-  Pressable
+  Pressable,
+  TextInput
 } from 'react-native';
 import { theme } from './color';
 
 export default function App() {
+  const [working, setWorking] = useState(true);
+  const travel = () => setWorking(false); 
+  const work = () => setWorking(true); 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.header}>
-        <TouchableOpacity activeOpacity={0.5}>
-          <Text style={styles.bunText}>Work</Text>
+        <TouchableOpacity onPress={work} activeOpacity={0.5}>
+          <Text style={{...styles.bunText, color: working ? "white" : theme.grey}}>Work</Text>
         </TouchableOpacity>
-        <TouchableWithoutFeedback 
-          onPress={() => console.log("pressed")}>
-          <Text style={styles.bunText}>Travel</Text>
-        </TouchableWithoutFeedback>
+        <TouchableOpacity 
+          onPress={() => {
+            travel() 
+            console.log(working)
+          }
+          }>
+          <Text style={{...styles.bunText, color: !working ? "white" : theme.grey}}>Travel</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        
       </View>
     </View>
   );
