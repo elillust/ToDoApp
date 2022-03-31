@@ -15,12 +15,24 @@ import { theme } from './color';
 export default function App() {
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
+  const [toDos, setTodos] = useState({});
   const travel = () => setWorking(false); 
   const work = () => setWorking(true); 
   const onChangeText = (payload) => setText(payload);
   const addToDo = () => {
-    alert(text); 
+    if(text===""){
+      return
+    }
+    const newToDos = Object.assign(
+      {}, 
+      toDos, 
+      {[Date.now()]: {text, work:working}}
+    ); 
+    setTodos(newToDos); 
+    setText(""); 
   }
+  console.log(toDos);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
