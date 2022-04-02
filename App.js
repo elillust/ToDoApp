@@ -31,7 +31,6 @@ export default function App() {
     setTodos(newToDos); 
     setText(""); 
   }
-  console.log(toDos);
 
   return (
     <View style={styles.container}>
