@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     color: "white", 
   },
   inputs: {
-    backgroundColor: theme.grey,
+    backgroundColor: theme.grey800,
     borderRadius: 30,
     color: "black",
     paddingHorizontal: 20,
