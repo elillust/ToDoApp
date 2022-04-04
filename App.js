@@ -9,10 +9,13 @@ import {
   TouchableWithoutFeedback,
   Pressable,
   TextInput,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { theme } from './color';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Fontisto } from '@expo/vector-icons';
+
 const STORAGE_KEY = "@toDos"; 
 
 export default function App() {
@@ -46,6 +49,23 @@ export default function App() {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
     setTodos(JSON.parse(s));
   };
+
+  const deleteToDo = (key) => {
+    Alert.alert("Delete To Do", "Are you sure?",[
+      { text: "Cancle" },
+      { text: "I'm Sure", 
+        style: "destructive",
+        onPress: async () => {
+          const newToDos = {...toDos}
+          delete newToDos[key];
+          setTodos(newToDos);
+          await saveToDos(newToDos);
+        },
+     },
+    ]);
+    return;
+  }
+
   useEffect(() => {
     loadToDos()
   }, []);
@@ -56,20 +76,23 @@ export default function App() {
       <StatusBar style="auto" />
       <View style={styles.header}>
         <TouchableOpacity onPress={work} activeOpacity={0.5}>
-          <Text style={{...styles.bunText, color: working ? "white" : theme.grey}}>Work</Text>
+          <Text style={{...styles.bunText, color: working ? "white" : theme.grey800}}>Work</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           onPress={() => {
             travel() 
-            console.log(working)
           }
           }>
-          <Text style={{...styles.bunText, color: !working ? "white" : theme.grey}}>Travel</Text>
+          <Text style={{...styles.bunText, color: !working ? "white" : theme.grey800}}>Travel</Text>
         </TouchableOpacity>
       </View>
-      
+
       <TextInput
-        onSubmitEditing={addToDo}
+        autoFocus={true}
+        onSubmitEditing={() => {
+          addToDo();
+          
+        }}
         onChangeText={onChangeText}
         value={text}
         // keyboardType='number-pad'
@@ -83,6 +106,9 @@ export default function App() {
           toDos[key].working === working ? (
           <View style={styles.toDo} key={key}>
             <Text style={styles.toDoText}>{toDos[key].text}</Text>
+            <TouchableOpacity onPress={() => deleteToDo(key)}>
+              <Fontisto name="trash" size={24} color="black" style={{ color:theme.grey800, fontSize:18, }} />
+            </TouchableOpacity>
           </View> 
           ) : null 
         ))}
@@ -120,8 +146,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.toDoBg,
     marginBottom: 10,
     paddingVertical: 20,
-    paddingHorizontal: 40,
-    
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   toDoText: {
     color: "white",
