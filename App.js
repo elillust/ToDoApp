@@ -23,11 +23,15 @@ export default function App() {
     if(text===""){
       return
     }
-    const newToDos = Object.assign(
-      {}, 
-      toDos, 
-      {[Date.now()]: {text, work:working}}
-    ); 
+    // const newToDos = Object.assign(
+    //   {}, 
+    //   toDos, 
+    //   {[Date.now()]: {text, work:working}}
+    // ); 
+    const newToDos = {
+      ...toDos,
+      [Date.now()]: {text, work:working}
+    };
     setTodos(newToDos); 
     setText(""); 
   }
