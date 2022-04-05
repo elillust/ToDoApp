@@ -50,6 +50,10 @@ export default function App() {
     setTodos(JSON.parse(s));
   };
 
+  const finish = (key) => {
+    console.log(key);
+  }
+
   const deleteToDo = (key) => {
     Alert.alert("Delete To Do", "Are you sure?",[
       { text: "Cancle" },
